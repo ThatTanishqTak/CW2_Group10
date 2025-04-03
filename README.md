@@ -1,93 +1,141 @@
-1. Realtime Financial Forecasting
-In this topic, the objective is to develop a deep learning based system for real-time 
-financial applications, with a specific focus on timeseries forecasting. The goal is to 
-predict one of the following:
-• The exchange rate of a currency pair found in the foreign exchange market
-• The stock price of a major corporation 
-• The value of a cryptocurrency
-These financial datasets are sourced from the historical data provided by NASDAQ and 
-are discussed in further detail below. You are required to choose one of these three
-datasets based on your interests to proceed with the assignment. 
-a) Load the data sets from the zipped csv files via the link below and verify no 
-records are missing.
+readme_content = """
+# Stock Price Prediction using GRU (Gated Recurrent Unit)
 
-b)Starbucks Stock Prices:
-Stock exchanges, such as the NASDAQ (an electronic exchange), are markets 
-where stocks of a company are traded. Stocks are generally issued by 
-corporations to raise capital; the purchase of which gives ownership of a 
-proportion of the corporation's shares. Starbucks stock has seen large 
-fluctuations in the past five years. The dataset contains the Starbucks daily open 
-price in the range of dates between 13/11/2017-10/01/2025, with1800 samples.
+This project demonstrates how to build a time series forecasting model using GRU (Gated Recurrent Unit) for predicting stock prices. The example uses Starbucks stock data, but the steps can be easily adapted for other stocks or models like LSTM, CNN, or Transformer-based approaches.
 
-c) Visualise the datasets and perform any necessary pre-processing.
-d) Treat the problem as a time series forecasting task, ensuring the data is 
-appropriately divided into training, validation, and testing sets based on your 
-chosen approach.
+## Project Overview
 
-e) Build and train multiple deep learning models using Keras. It is recommended
-to develop (1) one model that processes the data independently at each time 
-instance, (2) two models that considers them as a timeseries, (3) one deep 
-network, to approach the task as a regression problem. This will result in a total 
-of 4 separate models.
-f) Evaluate the performance of the models on the test dataset and report the results 
-in a comparative study (example metrics: MAE, MAPE, R^2, MSE, etc.)
+**Goal**: Predict future stock prices based on historical data.
 
-g) Link: https://kingstonuniversity-my.sharepoint.com/personal/ku72815_kingston_ac_uk/_layouts/15/onedrive.aspx?id=%2Fpersonal%2Fku72815%5Fkingston%5Fac%5Fuk%2FDocuments%2FCI7521%5FDL%2FAssignment%2FFinancialForecasting%2Ezip&parent=%2Fpersonal%2Fku72815%5Fkingston%5Fac%5Fuk%2FDocuments%2FCI7521%5FDL%2FAssignment&ga=1
+**Model**: GRU (Gated Recurrent Unit), a type of Recurrent Neural Network (RNN) designed for sequential data such as time series.
 
-Group Report – [6-8 pages text and results (more pages if we include images/code parts/ 
-references)]
-The Group Project Report should include:
-• Aims and Objectives of your theme problem
-• Analysis of the existing DNNs
-• Analysis of the designed DNNs
-• Analysis of the training process
-• Comparative analysis and performance evaluation of all the DNNs used
-• References (e.g. IEEE, Harvard, etc.).
-Individual Report – Conclusions and Self-evaluation [max 1 page]
-• Conclusions should include a short analysis of your own contribution (maximum a 
-paragraph 10 lines) and a reflection on your work and the expected outcomes 
-(maximum a paragraph 10 lines).
-• Use the template in APPENDIX I to assess both the group submission and your own 
-individual submission, as well as to rate the contributions of the group members 
-towards the group submission.
-Learning outcomes being assessed
-• Select and specify suitable methods and algorithms relevant for a particular data 
-analysis process;
-• Build machine learning and artificial intelligence systems using software packages 
-and/or specialised libraries;
-• Articulate and demonstrate the specific problems associated with different phases or 
-tasks of a machine learning or artificial intelligence pipeline;
-• Assess and evaluate machine learning methods using datasets and appropriate criteria;
-• Develop advanced machine learning and artificial intelligence solutions for 
-applications such as video and image analysis, information security, and data science.
-Marking Scheme (50%) [30% software and 15% the report + 5%video]
-Following items will be concerned in the process of marking:
-• Completed parts (15%)
-• Code quality (5%)
-• Effort/Complexity –what technical skills have been demonstrated (5%)
-• Application quality – Highlights (5%)
-• Quality of documentation (15%)
-• Quality of video (5%)
+**Dataset**: `starbucks_stock.csv` containing the columns `Date` and `Open` price (you can modify the code for other columns or datasets).
 
-Deliverables
-[A] Canvas: Online submission of the individual report using Canvas. This is an individual 
-submission with the Individual Report including the Conclusions and the Self-Evaluation 
-(see APPENDIX I). 
-This report is not marked, but it helps to understand the contributions of each student in 
-the group report and application. If it is not submitted, then we will assume that the
-student didn’t contribute to the project.
-[B] OneDrive Submission Instruction: The project should be sent using the OneDrive folder.
-For each team, please ensure that ONLY the group leader per group will be invited to 
-submit a zipped copy of your group work. This submission should include a copy of your 
-group report, the running codes, and a demo video via a designated group report submission 
-portal. Each group leader will receive access to this portal via an email invitation, which will 
-provide access solely for uploading purposes. Please ensure that the submitted zip file is named 
-using your group name (e.g. CI7521_CW2_Group01).
-The project folder should contain:
-• Runnable program of your solution accompanied with all the files required to 
-run.
-• All the datasets that are required to train and deploy the DNNs
-• All the pre-trained models (both the ones found online and the ones the students 
-trained)
-• A copy of the group report
-• A video demonstrating the application (no more than 250MB)
+---
+
+## Steps to Reproduce
+
+### 1. Setup Environment
+
+Ensure you have the required libraries installed by running:
+
+```bash
+pip install numpy pandas matplotlib tensorflow scikit-learn
+2. Data Preprocessing
+First, load the dataset and handle any missing values (if any). Normalize the data to scale values between 0 and 1 using MinMaxScaler. Then, create sequences for training the model.
+
+python
+Always show details
+
+Copy
+import numpy as np
+import pandas as pd
+from sklearn.preprocessing import MinMaxScaler
+
+# Load data
+data = pd.read_csv('starbucks_stock.csv', parse_dates=['Date'], index_col='Date')
+stock_prices = data[['Open']].values
+
+# Normalize data
+scaler = MinMaxScaler(feature_range=(0, 1))
+scaled_data = scaler.fit_transform(stock_prices)
+
+# Create sequences (X: input, y: output)
+def create_dataset(data, time_step=60):
+    X, y = [], []
+    for i in range(len(data)-time_step-1):
+        X.append(data[i:(i+time_step), 0])
+        y.append(data[i + time_step, 0])
+    return np.array(X), np.array(y)
+
+X, y = create_dataset(scaled_data, time_step=60)
+X = X.reshape(X.shape[0], X.shape[1], 1)  # Reshape for GRU (samples, timesteps, features)
+3. Split Data into Train/Test Sets
+Split the data into training and testing sets. Use the train_test_split method from sklearn:
+
+python
+Always show details
+
+Copy
+from sklearn.model_selection import train_test_split
+
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, shuffle=False)
+4. Build the GRU Model
+Define the GRU-based model using Keras. This model includes two GRU layers with dropout for regularization:
+
+python
+Always show details
+
+Copy
+from tensorflow.keras.models import Sequential
+from tensorflow.keras.layers import GRU, Dense, Dropout
+
+model = Sequential()
+model.add(GRU(units=50, return_sequences=True, input_shape=(X_train.shape[1], 1)))
+model.add(Dropout(0.2))
+model.add(GRU(units=50, return_sequences=False))
+model.add(Dropout(0.2))
+model.add(Dense(units=1))  # Output layer
+model.compile(optimizer='adam', loss='mean_squared_error')
+5. Train the Model
+Train the model using the training data and validate it with the testing data:
+
+python
+Always show details
+
+Copy
+history = model.fit(X_train, y_train, epochs=20, batch_size=32, validation_data=(X_test, y_test))
+6. Evaluate and Visualize Results
+After training the model, evaluate its performance by predicting the stock prices on the test set and plotting the results:
+
+python
+Always show details
+
+Copy
+import matplotlib.pyplot as plt
+from sklearn.metrics import mean_squared_error, mean_absolute_error
+
+# Predictions
+y_pred = model.predict(X_test)
+y_pred_scaled = scaler.inverse_transform(y_pred)
+y_test_scaled = scaler.inverse_transform(y_test.reshape(-1, 1))
+
+# Plot results
+plt.figure(figsize=(10, 6))
+plt.plot(y_test_scaled, color='blue', label='Actual Price')
+plt.plot(y_pred_scaled, color='red', label='Predicted Price')
+plt.title('Stock Price Prediction')
+plt.xlabel('Time')
+plt.ylabel('Price')
+plt.legend()
+plt.show()
+
+# Metrics
+mse = mean_squared_error(y_test_scaled, y_pred_scaled)
+mae = mean_absolute_error(y_test_scaled, y_pred_scaled)
+print(f"Mean Squared Error (MSE): {mse}")
+print(f"Mean Absolute Error (MAE): {mae}")
+Adapting to Other Models
+To use a different model (e.g., LSTM, CNN, or Transformer), you can modify the model architecture by replacing the GRU layers with your preferred model type. You can also adjust hyperparameters (e.g., number of units, dropout rate) as needed.
+
+Example for LSTM:
+python
+Always show details
+
+Copy
+from tensorflow.keras.layers import LSTM
+
+model = Sequential()
+model.add(LSTM(units=50, return_sequences=True, input_shape=(X_train.shape[1], 1)))
+model.add(Dropout(0.2))
+model.add(LSTM(units=50, return_sequences=False))
+model.add(Dropout(0.2))
+model.add(Dense(1))
+Dataset
+Place the dataset (starbucks_stock.csv) in the project directory. The dataset should have the following columns:
+
+Date: Date of the stock data
+
+Open: Opening price of Starbucks stock for the given day
+
+You can adjust the code to use different stock data or columns as needed.
