@@ -146,9 +146,3 @@ Place the dataset (`starbucks_stock.csv`) in the project directory. The dataset 
 - **Open**: Opening price of Starbucks stock for the given day
 
 You can adjust the code to use different stock data or columns as needed.
-
----
-
-## License
-
-This project is open-source and available under the MIT License. Feel free to contribute and modify it according to your needs.
