@@ -1,4 +1,4 @@
-readme_content = """
+
 # Stock Price Prediction using GRU (Gated Recurrent Unit)
 
 This project demonstrates how to build a time series forecasting model using GRU (Gated Recurrent Unit) for predicting stock prices. The example uses Starbucks stock data, but the steps can be easily adapted for other stocks or models like LSTM, CNN, or Transformer-based approaches.
