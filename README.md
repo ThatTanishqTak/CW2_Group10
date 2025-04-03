@@ -146,3 +146,100 @@ Place the dataset (`starbucks_stock.csv`) in the project directory. The dataset 
 - **Open**: Opening price of Starbucks stock for the given day
 
 You can adjust the code to use different stock data or columns as needed.
+
+---
+
+Here’s a detailed structure for your Group Project Report based on the assignment requirements for developing deep learning-based solutions for real-time financial forecasting using GRU models. This will help guide the report writing process.
+
+---
+
+## **Group Project Report: Time Series Forecasting using Deep Neural Networks (GRU)**
+
+### 1. **Aims and Objectives of the Theme Problem**
+
+In this section, you need to outline the problem you're addressing and the objectives of your project.
+
+**Aims:**
+- To develop a deep learning-based solution for predicting stock prices (or another financial dataset) using historical data.
+- To explore the use of Gated Recurrent Units (GRU) for time series forecasting in a real-world financial setting.
+
+**Objectives:**
+- **Implement an existing deep learning model** (such as GRU) for time series forecasting.
+- **Design a novel deep learning model** based on the GRU architecture to improve forecasting accuracy.
+- **Train and evaluate** the models using metrics such as accuracy, Mean Squared Error (MSE), and Mean Absolute Error (MAE).
+- **Compare and contrast** the performance of existing and designed models in terms of prediction accuracy, generalization ability, and computational efficiency.
+
+---
+
+### 2. **Analysis of the Existing DNNs**
+
+This section focuses on reviewing current models used for time series forecasting and how they apply to your dataset.
+
+- **Overview of Existing Models**: Discuss popular models like LSTMs, GRUs, and RNNs. For instance:
+  - **LSTM**: Effective for sequence prediction tasks due to its ability to capture long-term dependencies.
+  - **GRU**: A variant of LSTM that simplifies the architecture by having fewer parameters but still performs well for time series forecasting.
+  - **Traditional ML Models**: Briefly discuss other models like ARIMA or Random Forest, and explain why deep learning models might be more effective for this task.
+
+- **Performance in Time Series Forecasting**: Summarize how these models have been used in financial forecasting in existing research and how they compare with each other. For example, GRUs are often preferred over vanilla RNNs due to their ability to capture long-term dependencies while being computationally more efficient than LSTMs.
+
+- **Limitations of Existing Models**: Identify any shortcomings of the existing DNNs, such as issues with overfitting, training difficulties, or limited scalability when handling large datasets.
+
+---
+
+### 3. **Analysis of the Designed DNNs**
+
+In this section, you will describe the GRU-based model that your team has designed and how it was customized for the project.
+
+- **GRU Architecture Design**: 
+  - Describe the architecture of the GRU model used for forecasting (e.g., number of layers, number of units in each layer, activation functions, dropout layers to prevent overfitting).
+  - Justify why you chose GRU over LSTM (e.g., for computational efficiency or because of the specific characteristics of your dataset).
+
+- **Hyperparameters**: List the hyperparameters used for training (e.g., learning rate, batch size, number of epochs, optimizer used).
+
+- **Modifications for Financial Forecasting**: Explain any specific adjustments made to the general GRU architecture to tailor it for stock price prediction (e.g., using a sliding window for time series, handling seasonality, etc.).
+
+---
+
+### 4. **Analysis of the Training Process**
+
+This section should cover the methodology and challenges faced during the training process.
+
+- **Training Data Preparation**: Discuss how you prepared the training data (e.g., splitting the dataset into training and testing sets, normalizing the data using MinMaxScaler, and reshaping the data for GRU input).
+  
+- **Training the Model**:
+  - Explain the training process, including the optimizer and loss function used (e.g., Adam optimizer, Mean Squared Error as loss function).
+  - Discuss any challenges faced during training, such as overfitting, convergence issues, or the need for hyperparameter tuning.
+  - Mention any techniques used to mitigate these issues, such as using dropout layers, early stopping, or adjusting the learning rate.
+
+- **Training Duration and Computational Resources**: Provide information on the time it took to train the model, the computational resources used (e.g., CPU vs. GPU), and any scaling strategies applied if the dataset is large.
+
+---
+
+### 5. **Comparative Analysis and Performance Evaluation of All the DNNs Used**
+
+This section involves evaluating the performance of the GRU model against existing models, if applicable, and comparing their results.
+
+- **Evaluation Metrics**: 
+  - Explain the metrics used to evaluate the model’s performance, such as accuracy, Mean Squared Error (MSE), Mean Absolute Error (MAE), and visual comparison using graphs (e.g., actual vs. predicted values).
+  
+- **Performance Results**:
+  - Present the evaluation results for the existing model(s) and your GRU model. This could include a table or graph comparing the MSE, MAE, and other relevant metrics.
+  - Include graphs showing how the model's predictions align with actual stock prices or financial data.
+  
+- **Interpretation of Results**:
+  - Analyze which model performs best and why. Discuss any trade-offs between computational efficiency and prediction accuracy.
+  - Consider how well the model generalizes to unseen data (i.e., whether it overfits the training data).
+  
+- **Conclusion and Insights**:
+  - Summarize the overall findings and how your novel GRU model compares to existing solutions.
+  - Suggest possible improvements or future work, such as trying more advanced models (e.g., hybrid models) or including additional features like technical indicators or macroeconomic data.
+
+---
+
+### **References**
+
+Make sure to reference all sources, including any sample code or libraries used, research papers on GRU/LSTM models, and relevant tutorials. Cite your sources properly using the citation style required by your institution.
+
+---
+
+By following this structure, you'll be able to provide a comprehensive analysis of your machine learning models and demonstrate a clear understanding of the methods and their effectiveness in the context of your financial forecasting project.
